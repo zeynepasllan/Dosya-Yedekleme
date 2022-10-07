@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Ljts+4bLi1X7dHxNADwIAUxgyvHPlszOZCBykhZzZjO1qw8hMaOYoY8WrhhXt4UHkKxC47dDJVmBnwvIl/ANmg==",
+  "dgSpecHash": "kRVafJUJtK3NG6AWk/YzBRju+rk8haTwIbwN7ugXkF5UiycXYp5JpwqdoWl8+Tq2fBnylXa6LFh7D6gzRmfwVg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\okanv\\Source\\Repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\Dosya_Yedekleme.csproj",
+  "projectFilePath": "C:\\Users\\okanv\\source\\repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\Dosya_Yedekleme.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\okanv\\.nuget\\packages\\dotnetzip\\1.16.0\\dotnetzip.1.16.0.nupkg.sha512",
     "C:\\Users\\okanv\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.1\\microsoft.netcore.platforms.3.1.1.nupkg.sha512",

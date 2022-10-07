@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\okanv\\Source\\Repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\Dosya_Yedekleme.csproj": {}
+    "C:\\Users\\okanv\\source\\repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\Dosya_Yedekleme.csproj": {}
   },
   "projects": {
-    "C:\\Users\\okanv\\Source\\Repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\Dosya_Yedekleme.csproj": {
+    "C:\\Users\\okanv\\source\\repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\Dosya_Yedekleme.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\okanv\\Source\\Repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\Dosya_Yedekleme.csproj",
+        "projectUniqueName": "C:\\Users\\okanv\\source\\repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\Dosya_Yedekleme.csproj",
         "projectName": "Dosya_Yedekleme",
-        "projectPath": "C:\\Users\\okanv\\Source\\Repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\Dosya_Yedekleme.csproj",
+        "projectPath": "C:\\Users\\okanv\\source\\repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\Dosya_Yedekleme.csproj",
         "packagesPath": "C:\\Users\\okanv\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\okanv\\Source\\Repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\obj\\",
+        "outputPath": "C:\\Users\\okanv\\source\\repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
