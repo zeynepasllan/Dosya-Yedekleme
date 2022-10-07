@@ -12,9 +12,8 @@
       }
     ],
     "additionalProbingPaths": [
-      "C:\\Users\\Birol İnci\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\Birol İnci\\.nuget\\packages",
-      "C:\\Program Files (x86)\\Progress\\ToolboxNuGetPackages"
+      "C:\\Users\\zeynep\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\zeynep\\.nuget\\packages"
     ],
     "configProperties": {
       "Microsoft.NETCore.DotNetHostPolicy.SetAppPaths": true
