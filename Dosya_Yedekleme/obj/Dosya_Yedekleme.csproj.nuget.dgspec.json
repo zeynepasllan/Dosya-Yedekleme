@@ -1,30 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\okanv\\source\\repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\Dosya_Yedekleme.csproj": {}
+    "C:\\Users\\Birol İnci\\Source\\Repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\Dosya_Yedekleme.csproj": {}
   },
   "projects": {
-    "C:\\Users\\okanv\\source\\repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\Dosya_Yedekleme.csproj": {
+    "C:\\Users\\Birol İnci\\Source\\Repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\Dosya_Yedekleme.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\okanv\\source\\repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\Dosya_Yedekleme.csproj",
+        "projectUniqueName": "C:\\Users\\Birol İnci\\Source\\Repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\Dosya_Yedekleme.csproj",
         "projectName": "Dosya_Yedekleme",
-        "projectPath": "C:\\Users\\okanv\\source\\repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\Dosya_Yedekleme.csproj",
-        "packagesPath": "C:\\Users\\okanv\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\okanv\\source\\repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\obj\\",
+        "projectPath": "C:\\Users\\Birol İnci\\Source\\Repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\Dosya_Yedekleme.csproj",
+        "packagesPath": "C:\\Users\\Birol İnci\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Birol İnci\\Source\\Repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
           "C:\\Program Files (x86)\\Progress\\ToolboxNuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\okanv\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Birol İnci\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Telerik UI for WinForms.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0-windows"
+          "net6.0-windows7.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -57,8 +55,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -70,7 +67,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

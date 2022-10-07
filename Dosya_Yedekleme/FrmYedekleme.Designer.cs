@@ -1,7 +1,7 @@
 ﻿
 namespace Dosya_Yedekleme
 {
-    partial class Form1
+    partial class FrmYedekleme
     {
         /// <summary>
         ///  Required designer variable.
@@ -30,6 +30,7 @@ namespace Dosya_Yedekleme
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmYedekleme));
             this.btnKaynak = new System.Windows.Forms.Button();
             this.btnHedef = new System.Windows.Forms.Button();
             this.btnYedekle = new System.Windows.Forms.Button();
@@ -184,7 +185,7 @@ namespace Dosya_Yedekleme
             this.btnZiple.UseVisualStyleBackColor = true;
             this.btnZiple.Click += new System.EventHandler(this.btnZiple_Click);
             // 
-            // Form1
+            // FrmYedekleme
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -201,9 +202,10 @@ namespace Dosya_Yedekleme
             this.Controls.Add(this.btnYedekle);
             this.Controls.Add(this.btnHedef);
             this.Controls.Add(this.btnKaynak);
-            this.Name = "Form1";
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "FrmYedekleme";
             this.Text = "Dosya Yedekle";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.FrmYedekleme_Load);
             this.contextMenuStrip1_Sil_GeriAl.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

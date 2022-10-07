@@ -13,14 +13,14 @@ using System.Windows.Forms;
 
 namespace Dosya_Yedekleme
 {
-    public partial class Form1 : Form
+    public partial class FrmYedekleme : Form
     {
-        public Form1()
+        public FrmYedekleme()
         {
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void FrmYedekleme_Load(object sender, EventArgs e)
         {
             textBoxKaynak.Enabled = false;
             textBoxHedef.Enabled = false;
