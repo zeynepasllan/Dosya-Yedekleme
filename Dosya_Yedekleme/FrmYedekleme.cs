@@ -3,9 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Metrics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -40,12 +42,17 @@ namespace Dosya_Yedekleme
                 {
                     listBoxDosyalar.Items.Add(dosya.Name);
                 }
+                DirectoryInfo DrInf = new DirectoryInfo(kaynakKlasor);
+                DirectoryInfo[] DrInfLst = DrInf.GetDirectories();
+                foreach (DirectoryInfo klasor in DrInfLst)
+                {
+                    listBoxDosyalar.Items.Add(klasor.Name);
+                }
             }
             else
             {
                 MessageBox.Show("Klasör seçmediniz.");
             }
-            //TEST COMMIT
         }
 
         private void btnHedef_Click(object sender, EventArgs e)
@@ -65,13 +72,20 @@ namespace Dosya_Yedekleme
         {
             if (hedefKlasor != "" && kaynakKlasor != "")
             {
-
                 int sayac = 0;
                 foreach (string item in listBoxDosyalar.Items)
                 {
-                    if (!File.Exists(hedefKlasor + "\\" + item))
+                    var dosyaAdi = item.Substring(0, item.LastIndexOf(".") + 1);
+
+                    if (!File.Exists(hedefKlasor + "\\" + item) && dosyaAdi != "")
                     {
                         File.Copy(kaynakKlasor + "\\" + item, hedefKlasor + "\\" + item);
+                        sayac++;
+                    }
+                    else if (dosyaAdi == "")
+
+                    {
+                        Kopyala(textBoxKaynak.Text, textBoxHedef.Text, true);
                         sayac++;
                     }
                 }
@@ -111,7 +125,9 @@ namespace Dosya_Yedekleme
         private void btnEkle_Click(object sender, EventArgs e)
         {
             string metin = textBoxSil.Text;
-            var dosyalar = new DirectoryInfo(kaynakKlasor).GetFiles("*.*");
+            var dosyalar = new DirectoryInfo(kaynakKlasor).GetFiles("*.*");           
+            DirectoryInfo DrInf = new DirectoryInfo(kaynakKlasor);
+            DirectoryInfo[] DrInfLst = DrInf.GetDirectories();
             if (metin != string.Empty)
             {
                 foreach (FileInfo dosya in dosyalar)
@@ -131,7 +147,27 @@ namespace Dosya_Yedekleme
                         listBoxDosyalar.Items.Remove(dosya.Name);
                     }
                 }
-            }
+                
+                if (!Directory.Exists(hedefKlasor))
+                {
+                    Directory.CreateDirectory(hedefKlasor);
+                }
+                string path1 = "";
+
+                if (true)
+                {
+                    foreach (DirectoryInfo klasor in DrInfLst)
+                    {
+                        if (metin == klasor.Name)
+                        {
+                            listBoxSilinenler.Items.Add(metin);
+                            textBoxSil.Text = "";
+                            lblSilinen.Text = metin;
+                            listBoxDosyalar.Items.Remove(klasor.Name);
+                        }
+                    }
+                }
+            }            
         }
 
         private void btnZiple_Click(object sender, EventArgs e)
@@ -139,12 +175,23 @@ namespace Dosya_Yedekleme
             var ziplenecekKlasor = textBoxHedef.Text;
             var ziplenecekKlasor2 = textBoxHedef.Text + ("\\");
             var ziplemeKonumu = ziplenecekKlasor2.Substring(0, ziplenecekKlasor2.LastIndexOf("\\") + 1);
-            var tarihBilgi = DateTime.Now.ToShortDateString().Replace(".", "-") + " " +  DateTime.Now.Hour.ToString() + "." + DateTime.Now.Minute.ToString();
+            var tarihBilgi = DateTime.Now.ToShortDateString().Replace(".", "-") + " " + DateTime.Now.Hour.ToString() + "." + DateTime.Now.Minute.ToString();
             var klasorAdi = tarihBilgi + " " + ziplenecekKlasor.Substring(ziplenecekKlasor.LastIndexOf("\\") + 1);
-            KlasorZipleme(ziplenecekKlasor, ziplemeKonumu + klasorAdi + ".zip", klasorAdi);          
+            KlasorZipleme(ziplenecekKlasor, ziplemeKonumu + klasorAdi + ".zip", klasorAdi, tarihBilgi);
+            var dosyalar = new DirectoryInfo(hedefKlasor).GetFiles("*.*");
+            foreach (FileInfo dosya in dosyalar)
+            {
+                var zipBulma = dosya.Name.Substring(1, dosya.Name.IndexOf("-") + 1);
+                if (zipBulma != "")
+                {
+                    ziplenecekKlasor = textBoxHedef.Text + ("\\") + klasorAdi + ("\\");
+                    KlasorZipleme(ziplenecekKlasor, ziplemeKonumu + klasorAdi + ".zip", klasorAdi, tarihBilgi);
+                }
+            }
+
         }
 
-        private void KlasorZipleme(string kaynakKlasor, string ziplemeKonumu, string klasorAdi)
+        private void KlasorZipleme(string kaynakKlasor, string ziplemeKonumu, string klasorAdi, string tarihBilgi)
         {
             if (string.IsNullOrEmpty(textBoxHedef.Text))
             {
@@ -155,21 +202,35 @@ namespace Dosya_Yedekleme
             string path = textBoxHedef.Text;
             Thread thread = new Thread(t =>
             {
+
                 using (Ionic.Zip.ZipFile zip = new Ionic.Zip.ZipFile())
                 {
                     zip.AddDirectory(kaynakKlasor);
                     zip.SaveProgress += Zip_SaveProgress;
                     zip.Save(ziplemeKonumu);
                 }
+
                 var dosyalar = new DirectoryInfo(hedefKlasor).GetFiles("*.*");
                 foreach (FileInfo dosya in dosyalar)
                 {
-                    if (dosya.Name != klasorAdi + ".zip")
+                    var zipBulma = dosya.Name.Substring(1, dosya.Name.IndexOf("-") + 1);
+                    if (dosya.Name != klasorAdi + ".zip" && zipBulma == "")
                     {
                         dosya.Delete();
                     }
                 }
+
+                DirectoryInfo DrInf = new DirectoryInfo(kaynakKlasor);
+                DirectoryInfo[] DrInfLst = DrInf.GetDirectories();
+                foreach (DirectoryInfo klasor in DrInfLst)
+                {
+                    if (klasor.Name != klasorAdi + ".zip")
+                    {
+                        klasor.Delete();
+                    }
+                }
             })
+
             { IsBackground = true };
             thread.Start();
         }
@@ -182,7 +243,27 @@ namespace Dosya_Yedekleme
                 listBoxDosyalar.Items.Add(geriAl);
                 lblSilinen.Text = string.Empty;
             }
-            //18
+        }
+
+        protected void Kopyala(string Prmt1, string prmt2, bool prmt3)
+        {
+            DirectoryInfo DrInf = new DirectoryInfo(Prmt1);
+            DirectoryInfo[] DrInfLst = DrInf.GetDirectories();
+            if (!Directory.Exists(prmt2))
+            {
+                Directory.CreateDirectory(prmt2);
+            }
+
+            string path1 = "";
+
+            if (true)
+            {
+                foreach (DirectoryInfo klasor in DrInfLst)
+                {
+                    path1 = Path.Combine(prmt2, klasor.Name);
+                    Kopyala(klasor.FullName, path1, true);
+                }
+            }
         }
     }
-}
+ }
