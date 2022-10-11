@@ -51,7 +51,7 @@ namespace Dosya_Yedekleme
             }
             else
             {
-                MessageBox.Show("Klasör seçmediniz.");
+                MessageBox.Show("Klasör Seçmediniz.");
             }
         }
 
