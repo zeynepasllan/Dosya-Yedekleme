@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Dosya_Yedekleme
 {
@@ -26,6 +27,30 @@ namespace Dosya_Yedekleme
         {
             textBoxKaynak.Enabled = false;
             textBoxHedef.Enabled = false;
+            for (int i = 1; i <= 23; i++)
+            {
+                if (i <= 9)
+                {
+                    comboBoxSaat.Items.Add("0" + i);
+                }
+                else
+                {
+                    comboBoxSaat.Items.Add(i);
+                }
+            }
+            comboBoxSaat.Items.Add("00");
+            for (int i = 1; i <= 59; i++)
+            {
+                if (i <= 9)
+                {
+                    comboBoxDakika.Items.Add("0" + i);
+                }
+                else
+                {
+                    comboBoxDakika.Items.Add(i);
+                }
+            }
+            comboBoxDakika.Items.Add("00");
         }
 
         private void btnKaynak_Click(object sender, EventArgs e)
@@ -41,14 +66,23 @@ namespace Dosya_Yedekleme
                 foreach (FileInfo dosya in dosyalar)
                 {
                     listBoxDosyalar.Items.Add(dosya.Name);
+                    if (tabControlDosyalar.SelectedIndex == 0 && dosya.Name.EndsWith(".zip"))
+                    {
+                        listBoxZip.Items.Add(dosya.Name);
+                    }
+                    else if(dosya.Name.EndsWith(".txt"))
+                    {
+                        listBoxTxt.Items.Add(dosya.Name);
+                    }
                 }
                 DirectoryInfo DrInf = new DirectoryInfo(kaynakKlasor);
                 DirectoryInfo[] DrInfLst = DrInf.GetDirectories();
                 foreach (DirectoryInfo klasor in DrInfLst)
                 {
                     listBoxDosyalar.Items.Add(klasor.Name);
+                    listBoxKlasor.Items.Add(klasor.Name);
                 }
-            }
+              }
             else
             {
                 MessageBox.Show("Klasör Seçmediniz.");
@@ -108,20 +142,6 @@ namespace Dosya_Yedekleme
 
         string kaynakKlasor = "", hedefKlasor = "";
 
-        private void silToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (listBoxDosyalar.SelectedItem != null)
-            {
-                string sil = listBoxDosyalar.SelectedItem.ToString();
-                listBoxDosyalar.Items.Remove(sil);
-                lblSilinen.Text = sil;
-            }
-            else
-            {
-                MessageBox.Show("Lütfen silmek istediğiniz dosyayı seçin");
-            }
-        }
-
         private void btnEkle_Click(object sender, EventArgs e)
         {
             string metin = textBoxSil.Text;
@@ -140,33 +160,33 @@ namespace Dosya_Yedekleme
                         textBoxSil.Text = "";
                         lblSilinen.Text = metin;
                         listBoxDosyalar.Items.Remove(dosya.Name);
+                        if (metin.EndsWith(".zip"))
+                        {
+                            listBoxZip.Items.Remove(dosya.Name);
+                        }
+                        if (metin.EndsWith(".txt"))
+                        {
+                            listBoxTxt.Items.Remove(dosya.Name);
+                        }
                     }
                     else if (metin.Substring(metin.Length - 3, 3) == sonMetin && ilkHarf == "*")
                     {
                         listBoxSilinenler.Items.Add(dosya.Name);
                         listBoxDosyalar.Items.Remove(dosya.Name);
-                    }
+                    }                   
                 }
                 
-                if (!Directory.Exists(hedefKlasor))
+                foreach (DirectoryInfo klasor in DrInfLst)
                 {
-                    Directory.CreateDirectory(hedefKlasor);
-                }
-                string path1 = "";
-
-                if (true)
-                {
-                    foreach (DirectoryInfo klasor in DrInfLst)
+                    if (metin == klasor.Name)
                     {
-                        if (metin == klasor.Name)
-                        {
-                            listBoxSilinenler.Items.Add(metin);
-                            textBoxSil.Text = "";
-                            lblSilinen.Text = metin;
-                            listBoxDosyalar.Items.Remove(klasor.Name);
-                        }
+                        listBoxSilinenler.Items.Add(metin);
+                        textBoxSil.Text = "";
+                        lblSilinen.Text = metin;
+                        listBoxDosyalar.Items.Remove(klasor.Name);
+                        listBoxKlasor.Items.Remove(klasor.Name);
                     }
-                }
+                } 
             }            
         }
 
@@ -177,18 +197,29 @@ namespace Dosya_Yedekleme
             var ziplemeKonumu = ziplenecekKlasor2.Substring(0, ziplenecekKlasor2.LastIndexOf("\\") + 1);
             var tarihBilgi = DateTime.Now.ToShortDateString().Replace(".", "-") + " " + DateTime.Now.Hour.ToString() + "." + DateTime.Now.Minute.ToString();
             var klasorAdi = tarihBilgi + " " + ziplenecekKlasor.Substring(ziplenecekKlasor.LastIndexOf("\\") + 1);
-            KlasorZipleme(ziplenecekKlasor, ziplemeKonumu + klasorAdi + ".zip", klasorAdi, tarihBilgi);
-            var dosyalar = new DirectoryInfo(hedefKlasor).GetFiles("*.*");
-            foreach (FileInfo dosya in dosyalar)
-            {
-                var zipBulma = dosya.Name.Substring(1, dosya.Name.IndexOf("-") + 1);
-                if (zipBulma != "")
-                {
-                    ziplenecekKlasor = textBoxHedef.Text + ("\\") + klasorAdi + ("\\");
-                    KlasorZipleme(ziplenecekKlasor, ziplemeKonumu + klasorAdi + ".zip", klasorAdi, tarihBilgi);
-                }
+            if(comboBoxSaat.Text == "" && comboBoxDakika.Text == "" && textBoxYedekMiktar.Text != "")
+            {                
+                int miktar = int.Parse(textBoxYedekMiktar.Text);
+                int sayac = 0;
+                for (var i = 1; i <= miktar; i++)
+                    {
+                        sayac++;
+                        KlasorZipleme(ziplenecekKlasor, ziplemeKonumu + klasorAdi + sayac + ".zip", klasorAdi, tarihBilgi);
+                    }
+                
             }
-
+            else if(comboBoxSaat.Text != "" && comboBoxDakika.Text != "" && textBoxYedekMiktar.Text != "")
+            {  
+                tmrZamanKontrol.Start();
+            }
+            else if (comboBoxSaat.Text != "" && comboBoxDakika.Text != "" && textBoxYedekMiktar.Text == "")
+            {
+                tmrZamanKontrol.Start();
+            }
+            else
+            {
+                KlasorZipleme(ziplenecekKlasor, ziplemeKonumu + klasorAdi + ".zip", klasorAdi, tarihBilgi);
+            }
         }
 
         private void KlasorZipleme(string kaynakKlasor, string ziplemeKonumu, string klasorAdi, string tarihBilgi)
@@ -202,7 +233,7 @@ namespace Dosya_Yedekleme
             string path = textBoxHedef.Text;
             Thread thread = new Thread(t =>
             {
-
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                 using (Ionic.Zip.ZipFile zip = new Ionic.Zip.ZipFile())
                 {
                     zip.AddDirectory(kaynakKlasor);
@@ -213,8 +244,8 @@ namespace Dosya_Yedekleme
                 var dosyalar = new DirectoryInfo(hedefKlasor).GetFiles("*.*");
                 foreach (FileInfo dosya in dosyalar)
                 {
-                    var zipBulma = dosya.Name.Substring(1, dosya.Name.IndexOf("-") + 1);
-                    if (dosya.Name != klasorAdi + ".zip" && zipBulma == "")
+                    var varolanZip = dosya.Name.Substring(1, dosya.Name.IndexOf("-") + 1);
+                    if (dosya.Name != klasorAdi + ".zip" && varolanZip == "")
                     {
                         dosya.Delete();
                     }
@@ -235,14 +266,61 @@ namespace Dosya_Yedekleme
             thread.Start();
         }
 
-        private void geriAlStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            if (lblSilinen.Text != string.Empty)
+        private void tmrZamanKontrol_Tick(object sender, EventArgs e)
+        {            
+            int sayac = 0;
+            var saat = DateTime.Now.Hour.ToString();
+            var dakika = DateTime.Now.Minute.ToString();
+            var ziplenecekKlasor = textBoxHedef.Text;
+            var ziplenecekKlasor2 = textBoxHedef.Text + ("\\");
+            var ziplemeKonumu = ziplenecekKlasor2.Substring(0, ziplenecekKlasor2.LastIndexOf("\\") + 1);
+            var tarihBilgi = DateTime.Now.ToShortDateString().Replace(".", "-") + " " + DateTime.Now.Hour.ToString() + "." + DateTime.Now.Minute.ToString();
+            var klasorAdi = tarihBilgi + " " + ziplenecekKlasor.Substring(ziplenecekKlasor.LastIndexOf("\\") + 1);
+
+            if(saat.Length == 1)
             {
+                saat = "0" + saat;
+            }
+
+            if(dakika.Length == 1)
+            {
+                dakika = "0" + dakika;
+            }
+
+            if (saat == comboBoxSaat.Text && dakika == comboBoxDakika.Text && textBoxYedekMiktar.Text != "")
+            {
+                int miktar = int.Parse(textBoxYedekMiktar.Text);
+                for (var i = 1; i <= miktar; i++)
+                {
+                    sayac++;
+                    KlasorZipleme(ziplenecekKlasor, ziplemeKonumu + klasorAdi + sayac + ".zip", klasorAdi, tarihBilgi);
+                }
+            }
+            else
+            {
+                KlasorZipleme(ziplenecekKlasor, ziplemeKonumu + klasorAdi + ".zip", klasorAdi, tarihBilgi);
+            }
+        }
+
+        private void geriAlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
                 string geriAl = lblSilinen.Text;
                 listBoxDosyalar.Items.Add(geriAl);
+                listBoxSilinenler.Items.Remove(geriAl);
                 lblSilinen.Text = string.Empty;
+            if(geriAl.EndsWith(".zip"))
+            {
+                listBoxZip.Items.Add(geriAl);
             }
+            else if (geriAl.EndsWith(".txt"))
+            {
+                listBoxTxt.Items.Add(geriAl);
+            }
+            else
+            {
+                listBoxKlasor.Items.Add(geriAl);
+            }
+
         }
 
         protected void Kopyala(string Prmt1, string prmt2, bool prmt3)

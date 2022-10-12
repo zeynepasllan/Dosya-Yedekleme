@@ -51,7 +51,8 @@ C:\Users\zeynep\source\repos\Dosya-Yedekleme\Dosya_Yedekleme\bin\Debug\net6.0-wi
 C:\Users\zeynep\source\repos\Dosya-Yedekleme\Dosya_Yedekleme\bin\Debug\net6.0-windows\Dosya_Yedekleme.runtimeconfig.json
 C:\Users\zeynep\source\repos\Dosya-Yedekleme\Dosya_Yedekleme\bin\Debug\net6.0-windows\Dosya_Yedekleme.dll
 C:\Users\zeynep\source\repos\Dosya-Yedekleme\Dosya_Yedekleme\bin\Debug\net6.0-windows\Dosya_Yedekleme.pdb
-C:\Users\zeynep\source\repos\Dosya-Yedekleme\Dosya_Yedekleme\bin\Debug\net6.0-windows\DotNetZip.dll
 C:\Users\zeynep\source\repos\Dosya-Yedekleme\Dosya_Yedekleme\obj\Debug\net6.0-windows\Dosya_Yedekleme.csproj.CopyComplete
 C:\Users\zeynep\source\repos\Dosya-Yedekleme\Dosya_Yedekleme\obj\Debug\net6.0-windows\Dosya_Yedekleme.genruntimeconfig.cache
 C:\Users\zeynep\source\repos\Dosya-Yedekleme\Dosya_Yedekleme\obj\Debug\net6.0-windows\ref\Dosya_Yedekleme.dll
+C:\Users\zeynep\source\repos\Dosya-Yedekleme\Dosya_Yedekleme\bin\Debug\net6.0-windows\Ionic.Zip.dll
+C:\Users\zeynep\source\repos\Dosya-Yedekleme\Dosya_Yedekleme\obj\Debug\net6.0-windows\Dosya_Yedekleme.Properties.Resources.resources

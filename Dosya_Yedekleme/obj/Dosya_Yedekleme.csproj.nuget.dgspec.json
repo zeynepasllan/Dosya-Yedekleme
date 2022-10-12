@@ -43,6 +43,10 @@
             "Ionic.Zip": {
               "target": "Package",
               "version": "[1.9.1.8, )"
+            },
+            "System.Text.Encoding.CodePages": {
+              "target": "Package",
+              "version": "[4.4.0, )"
             }
           },
           "imports": [

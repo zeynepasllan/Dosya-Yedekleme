@@ -12,7 +12,7 @@
       }
     ],
     "additionalProbingPaths": [
-      "C:\\Users\\okanv\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\zeynep\\.dotnet\\store\\|arch|\\|tfm|",
       "C:\\Users\\zeynep\\.nuget\\packages"
     ],
     "configProperties": {

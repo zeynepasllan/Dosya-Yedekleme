@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "SXhGMZ6lhUHMJsv1ge41bv/b1KV0aCkfdcPqXny/90hsdqczyMoSh+ekAIdO5IgDHXRwDwp5Q9HV/PEgx/hFxg==",
+  "dgSpecHash": "Gv3WRNBUqQ4CVICK4S/kcorB7iEynKHOrg/hvqN1dIMi3YlH8nMDIF3nRj+MfCxTqAZOWw9W0Jix5n7TFvLSfA==",
   "success": true,
   "projectFilePath": "C:\\Users\\zeynep\\source\\repos\\Dosya-Yedekleme\\Dosya_Yedekleme\\Dosya_Yedekleme.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\zeynep\\.nuget\\packages\\ionic.zip\\1.9.1.8\\ionic.zip.1.9.1.8.nupkg.sha512"
+    "C:\\Users\\zeynep\\.nuget\\packages\\ionic.zip\\1.9.1.8\\ionic.zip.1.9.1.8.nupkg.sha512",
+    "C:\\Users\\zeynep\\.nuget\\packages\\microsoft.netcore.platforms\\2.0.0\\microsoft.netcore.platforms.2.0.0.nupkg.sha512",
+    "C:\\Users\\zeynep\\.nuget\\packages\\system.text.encoding.codepages\\4.4.0\\system.text.encoding.codepages.4.4.0.nupkg.sha512"
   ],
   "logs": [
     {
