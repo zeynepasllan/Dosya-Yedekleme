@@ -7,6 +7,7 @@ using System.Diagnostics.Metrics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -18,9 +19,40 @@ namespace Dosya_Yedekleme
 {
     public partial class FrmYedekleme : Form
     {
+        private static Icon ExtractFromPath(string path)
+        {
+            SHFILEINFO shinfo = new SHFILEINFO();
+            SHGetFileInfo(
+                path,
+                0, ref shinfo, (uint)Marshal.SizeOf(shinfo),
+                SHGFI_ICON | SHGFI_LARGEICON);
+            return System.Drawing.Icon.FromHandle(shinfo.hIcon);
+        }
+
+        //Struct used by SHGetFileInfo function
+        [StructLayout(LayoutKind.Sequential)]
+        private struct SHFILEINFO
+        {
+            public IntPtr hIcon;
+            public int iIcon;
+            public uint dwAttributes;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+            public string szDisplayName;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
+            public string szTypeName;
+        };
+
+        [DllImport("shell32.dll")]
+        private static extern IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, uint cbSizeFileInfo, uint uFlags);
+
+        private const uint SHGFI_ICON = 0x100;
+        private const uint SHGFI_LARGEICON = 0x0;
+        private const uint SHGFI_SMALLICON = 0x000000001;
         public FrmYedekleme()
         {
             InitializeComponent();
+            lswYedeklenecekler.View = View.List;
+            lswYedeklenecekler.GridLines = true;
         }
 
         private void FrmYedekleme_Load(object sender, EventArgs e)
@@ -51,38 +83,70 @@ namespace Dosya_Yedekleme
                 }
             }
             comboBoxDakika.Items.Add("00");
+            /*System.Windows.Forms.ImageList myImageList1 = new ImageList();
+            myImageList1.ImageSize = new Size(64, 64);
+            myImageList1.Images.Add(Image.FromFile(@"C:\Users\zeynep\Desktop\txtt.png"));
+            lswYedeklenecekler.LargeImageList = myImageList1;
+            lswYedeklenecekler.View = View.SmallIcon;
+            //Set the view to show details.
+            lswYedeklenecekler.View = View.Details;
+            //Allow the user to edit item text.
+            lswYedeklenecekler.LabelEdit = true;
+            // Allow the user to rearrange columns.
+            lswYedeklenecekler.AllowColumnReorder = true;
+            // Display check boxes.
+            lswYedeklenecekler.CheckBoxes = true;
+            // Select the item and subitems when selection is made.
+            lswYedeklenecekler.FullRowSelect = true;
+            // Display grid lines.
+            lswYedeklenecekler.GridLines = true;
+            // Sort the items in the list in ascending order.
+            lswYedeklenecekler.Sorting = SortOrder.Ascending;
+            lswYedeklenecekler.Columns.Add("Dosya Adı", -2, HorizontalAlignment.Left);
+            lswYedeklenecekler.Columns.Add("Dosya Boyutu", -2, HorizontalAlignment.Left);
+            lswYedeklenecekler.SmallImageList = new ImageList();*/
         }
 
         private void btnKaynak_Click(object sender, EventArgs e)
         {
+            // Kopyalanacak klasör seçilir. Dosya türlerine göre imageIndex kullanılarak ilgili icon eklenir.
             openFileDialog1.Title = "Yedeklenecek klasörü seçiniz.";
             openFileDialog1.FileName = "";
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 kaynakKlasor = folderBrowserDialog1.SelectedPath.ToString();
                 textBoxKaynak.Text = kaynakKlasor;
-                listBoxDosyalar.Items.Clear();
                 var dosyalar = new DirectoryInfo(kaynakKlasor).GetFiles("*.*");
                 foreach (FileInfo dosya in dosyalar)
-                {
-                    listBoxDosyalar.Items.Add(dosya.Name);
-                    if (tabControlDosyalar.SelectedIndex == 0 && dosya.Name.EndsWith(".zip"))
+                {                    
+                    Icon ico = Icon.ExtractAssociatedIcon(kaynakKlasor + "\\" + dosya.Name);
+                    Image img = ico.ToBitmap();
+                    lswYedeklenecekler.SmallImageList.Images.Add(img);
+                    ListViewItem item1 = new ListViewItem(dosya.Name, dosya.Length.ToString());
+           
+                    if (dosya.Name.EndsWith(".zip"))
                     {
-                        listBoxZip.Items.Add(dosya.Name);
+                        lswYedeklenecekler.Items.Add(dosya.Name, imageIndex:0);
                     }
-                    else if(dosya.Name.EndsWith(".txt"))
+                    else if (dosya.Name.EndsWith(".txt"))
                     {
-                        listBoxTxt.Items.Add(dosya.Name);
-                    }
+                        lswYedeklenecekler.Items.Add(dosya.Name, imageIndex:1);
+                    }                                      
                 }
                 DirectoryInfo DrInf = new DirectoryInfo(kaynakKlasor);
                 DirectoryInfo[] DrInfLst = DrInf.GetDirectories();
                 foreach (DirectoryInfo klasor in DrInfLst)
                 {
-                    listBoxDosyalar.Items.Add(klasor.Name);
-                    listBoxKlasor.Items.Add(klasor.Name);
+                    if (Directory.Exists(klasor.FullName))
+                    {
+                        Icon ico = ExtractFromPath(klasor.FullName);
+                        Image img = ico.ToBitmap();
+                        lswYedeklenecekler.SmallImageList.Images.Add(img);
+                        ListViewItem item1 = new ListViewItem(klasor.Name, klasor.ToString());
+                        lswYedeklenecekler.Items.Add(klasor.Name, imageIndex: 2);
+                    }
                 }
-              }
+            }
             else
             {
                 MessageBox.Show("Klasör Seçmediniz.");
@@ -104,20 +168,21 @@ namespace Dosya_Yedekleme
 
         private void btnYedekle_Click(object sender, EventArgs e)
         {
+            // lswYedeklenecekler dönülür. Dosya adında "." varsa File.Copy fonk çalıştırıp dosyayı kopyalar, yoksa Kopyala fonk çalıştırıp klasörü kopyalar.
             if (hedefKlasor != "" && kaynakKlasor != "")
             {
                 int sayac = 0;
-                foreach (string item in listBoxDosyalar.Items)
+                foreach (ListViewItem item in lswYedeklenecekler.Items)
                 {
-                    var dosyaAdi = item.Substring(0, item.LastIndexOf(".") + 1);
+                    var dosyaAdi = item.Text.Substring(0, item.Text.LastIndexOf(".") + 1);
 
-                    if (!File.Exists(hedefKlasor + "\\" + item) && dosyaAdi != "")
+                    if (!File.Exists(hedefKlasor + "\\" + item.Text) && dosyaAdi != "")
                     {
-                        File.Copy(kaynakKlasor + "\\" + item, hedefKlasor + "\\" + item);
+                        File.Copy(kaynakKlasor + "\\" + item.Text, hedefKlasor + "\\" + item.Text);
                         sayac++;
                     }
-                    else if (dosyaAdi == "")
 
+                    else if (dosyaAdi == "")
                     {
                         Kopyala(textBoxKaynak.Text, textBoxHedef.Text, true);
                         sayac++;
@@ -144,76 +209,71 @@ namespace Dosya_Yedekleme
 
         private void btnEkle_Click(object sender, EventArgs e)
         {
+            // lswYedeklenecekler dönülür. Eğer silinecek dosya lswYedeklenecekler içerisinde varsa dosya silinir.
+            // Eğer silinecek dosya zip veya txt ile bitiyorsa ve ilk harfi * ise, dosya türü ile eşleşen tüm dosyalar silinir.
             string metin = textBoxSil.Text;
-            var dosyalar = new DirectoryInfo(kaynakKlasor).GetFiles("*.*");           
+            var dosyalar = new DirectoryInfo(kaynakKlasor).GetFiles("*.*");
             DirectoryInfo DrInf = new DirectoryInfo(kaynakKlasor);
             DirectoryInfo[] DrInfLst = DrInf.GetDirectories();
             if (metin != string.Empty)
             {
-                foreach (FileInfo dosya in dosyalar)
+                foreach (ListViewItem item in lswYedeklenecekler.Items)
                 {
-                    string ilkHarf = metin.Substring(0, 1);
-                    string sonMetin = dosya.Name.Substring(dosya.Name.Length - 3, 3);
-                    if (metin == dosya.Name)
+                    string ilkHarf = metin.Substring(0, 1);  
+                    string sonMetin = item.Text.Substring(item.Text.Length - 3, 3);
+                    if (metin == item.Text)
                     {
                         listBoxSilinenler.Items.Add(metin);
                         textBoxSil.Text = "";
-                        lblSilinen.Text = metin;
-                        listBoxDosyalar.Items.Remove(dosya.Name);
-                        if (metin.EndsWith(".zip"))
-                        {
-                            listBoxZip.Items.Remove(dosya.Name);
-                        }
-                        if (metin.EndsWith(".txt"))
-                        {
-                            listBoxTxt.Items.Remove(dosya.Name);
-                        }
+                        lblSilinen.Text = metin;   
+                        lswYedeklenecekler.Items.Remove(item);                       
                     }
                     else if (metin.Substring(metin.Length - 3, 3) == sonMetin && ilkHarf == "*")
                     {
-                        listBoxSilinenler.Items.Add(dosya.Name);
-                        listBoxDosyalar.Items.Remove(dosya.Name);
-                    }                   
-                }
-                
-                foreach (DirectoryInfo klasor in DrInfLst)
-                {
-                    if (metin == klasor.Name)
-                    {
-                        listBoxSilinenler.Items.Add(metin);
-                        textBoxSil.Text = "";
-                        lblSilinen.Text = metin;
-                        listBoxDosyalar.Items.Remove(klasor.Name);
-                        listBoxKlasor.Items.Remove(klasor.Name);
+                        listBoxSilinenler.Items.Add(item.Text);
+                        lswYedeklenecekler.Items.Remove(item);
                     }
-                } 
-            }            
+                }
+            }
         }
 
         private void btnZiple_Click(object sender, EventArgs e)
         {
+            // Yedekleme miktarı belirtildiyse, yedeklenen dosyalar belirtilen miktar kadar ziplenir.
             var ziplenecekKlasor = textBoxHedef.Text;
             var ziplenecekKlasor2 = textBoxHedef.Text + ("\\");
             var ziplemeKonumu = ziplenecekKlasor2.Substring(0, ziplenecekKlasor2.LastIndexOf("\\") + 1);
             var tarihBilgi = DateTime.Now.ToShortDateString().Replace(".", "-") + " " + DateTime.Now.Hour.ToString() + "." + DateTime.Now.Minute.ToString();
             var klasorAdi = tarihBilgi + " " + ziplenecekKlasor.Substring(ziplenecekKlasor.LastIndexOf("\\") + 1);
-            if(comboBoxSaat.Text == "" && comboBoxDakika.Text == "" && textBoxYedekMiktar.Text != "")
-            {                
+            var dosyalar = new DirectoryInfo(hedefKlasor).GetFiles("*.*");
+            if (textBoxYedekMiktar.Text != "")
+            {
                 int miktar = int.Parse(textBoxYedekMiktar.Text);
                 int sayac = 0;
-                for (var i = 1; i <= miktar; i++)
+                int dosyaSayisi = 0;
+                if (comboBoxSaat.Text == "" && comboBoxDakika.Text == "" && textBoxYedekMiktar.Text != "")
+                {
+                    for (var i = 1; i <= miktar; i++)
                     {
                         sayac++;
                         KlasorZipleme(ziplenecekKlasor, ziplemeKonumu + klasorAdi + sayac + ".zip", klasorAdi, tarihBilgi);
                     }
-                
-            }
-            else if(comboBoxSaat.Text != "" && comboBoxDakika.Text != "" && textBoxYedekMiktar.Text != "")
+                }
+                else
+                {
+                    tmrZamanKontrol.Start();
+                }                
+                foreach (FileInfo dosya in dosyalar)
+                {
+                    dosyaSayisi++;
+                }
+                if(dosyaSayisi>5)
+                {
+
+                }
+            }                  
+            else if(comboBoxSaat.Text != "" && comboBoxDakika.Text != "")
             {  
-                tmrZamanKontrol.Start();
-            }
-            else if (comboBoxSaat.Text != "" && comboBoxDakika.Text != "" && textBoxYedekMiktar.Text == "")
-            {
                 tmrZamanKontrol.Start();
             }
             else
@@ -304,23 +364,29 @@ namespace Dosya_Yedekleme
 
         private void geriAlToolStripMenuItem_Click(object sender, EventArgs e)
         {
-                string geriAl = lblSilinen.Text;
-                listBoxDosyalar.Items.Add(geriAl);
-                listBoxSilinenler.Items.Remove(geriAl);
-                lblSilinen.Text = string.Empty;
+            string geriAl = lblSilinen.Text;
+            listBoxSilinenler.Items.Remove(geriAl);
+            lblSilinen.Text = string.Empty;
             if(geriAl.EndsWith(".zip"))
             {
-                listBoxZip.Items.Add(geriAl);
+                lswYedeklenecekler.Items.Add(geriAl, imageIndex:0);
             }
             else if (geriAl.EndsWith(".txt"))
             {
-                listBoxTxt.Items.Add(geriAl);
+                lswYedeklenecekler.Items.Add(geriAl, imageIndex: 1);
             }
             else
             {
-                listBoxKlasor.Items.Add(geriAl);
+                lswYedeklenecekler.Items.Add(geriAl, imageIndex: 2);
             }
+        }
 
+        private void lswYedeklenecekler_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in lswYedeklenecekler.SelectedItems)
+            {
+                textBoxSil.Text = item.Text;
+            }
         }
 
         protected void Kopyala(string Prmt1, string prmt2, bool prmt3)

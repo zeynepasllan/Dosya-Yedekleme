@@ -50,18 +50,10 @@ namespace Dosya_Yedekleme
             this.comboBoxSaat = new System.Windows.Forms.ComboBox();
             this.textBoxYedekMiktar = new System.Windows.Forms.TextBox();
             this.comboBoxDakika = new System.Windows.Forms.ComboBox();
-            this.tabControlDosyalar = new System.Windows.Forms.TabControl();
-            this.tabPageZip = new System.Windows.Forms.TabPage();
-            this.listBoxZip = new System.Windows.Forms.ListBox();
-            this.tabPageTxt = new System.Windows.Forms.TabPage();
-            this.listBoxTxt = new System.Windows.Forms.ListBox();
-            this.tabPageKlasor = new System.Windows.Forms.TabPage();
-            this.listBoxKlasor = new System.Windows.Forms.ListBox();
-            this.tabPageTumDosyalar = new System.Windows.Forms.TabPage();
-            this.listBoxDosyalar = new System.Windows.Forms.ListBox();
             this.imageListLogo = new System.Windows.Forms.ImageList(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lswYedeklenecekler = new System.Windows.Forms.ListView();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -70,11 +62,6 @@ namespace Dosya_Yedekleme
             this.label1 = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.contextMenuStripGeriAl.SuspendLayout();
-            this.tabControlDosyalar.SuspendLayout();
-            this.tabPageZip.SuspendLayout();
-            this.tabPageTxt.SuspendLayout();
-            this.tabPageKlasor.SuspendLayout();
-            this.tabPageTumDosyalar.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -103,7 +90,7 @@ namespace Dosya_Yedekleme
             // 
             // btnYedekle
             // 
-            this.btnYedekle.Location = new System.Drawing.Point(997, 601);
+            this.btnYedekle.Location = new System.Drawing.Point(1017, 591);
             this.btnYedekle.Name = "btnYedekle";
             this.btnYedekle.Size = new System.Drawing.Size(65, 23);
             this.btnYedekle.TabIndex = 2;
@@ -140,7 +127,7 @@ namespace Dosya_Yedekleme
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(1139, 601);
+            this.progressBar1.Location = new System.Drawing.Point(1182, 591);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(24, 23);
             this.progressBar1.TabIndex = 9;
@@ -158,7 +145,7 @@ namespace Dosya_Yedekleme
             this.btnEkle.Name = "btnEkle";
             this.btnEkle.Size = new System.Drawing.Size(75, 23);
             this.btnEkle.TabIndex = 11;
-            this.btnEkle.Text = "Ekle";
+            this.btnEkle.Text = "Sil";
             this.btnEkle.UseVisualStyleBackColor = true;
             this.btnEkle.Click += new System.EventHandler(this.btnEkle_Click);
             // 
@@ -189,7 +176,7 @@ namespace Dosya_Yedekleme
             // 
             // btnZiple
             // 
-            this.btnZiple.Location = new System.Drawing.Point(1068, 601);
+            this.btnZiple.Location = new System.Drawing.Point(1098, 591);
             this.btnZiple.Name = "btnZiple";
             this.btnZiple.Size = new System.Drawing.Size(65, 23);
             this.btnZiple.TabIndex = 13;
@@ -212,7 +199,7 @@ namespace Dosya_Yedekleme
             // 
             // textBoxYedekMiktar
             // 
-            this.textBoxYedekMiktar.Location = new System.Drawing.Point(26, 46);
+            this.textBoxYedekMiktar.Location = new System.Drawing.Point(32, 46);
             this.textBoxYedekMiktar.Name = "textBoxYedekMiktar";
             this.textBoxYedekMiktar.Size = new System.Drawing.Size(67, 23);
             this.textBoxYedekMiktar.TabIndex = 19;
@@ -225,120 +212,18 @@ namespace Dosya_Yedekleme
             this.comboBoxDakika.Size = new System.Drawing.Size(52, 23);
             this.comboBoxDakika.TabIndex = 22;
             // 
-            // tabControlDosyalar
-            // 
-            this.tabControlDosyalar.Controls.Add(this.tabPageZip);
-            this.tabControlDosyalar.Controls.Add(this.tabPageTxt);
-            this.tabControlDosyalar.Controls.Add(this.tabPageKlasor);
-            this.tabControlDosyalar.Controls.Add(this.tabPageTumDosyalar);
-            this.tabControlDosyalar.ImageList = this.imageListLogo;
-            this.tabControlDosyalar.Location = new System.Drawing.Point(6, 38);
-            this.tabControlDosyalar.Name = "tabControlDosyalar";
-            this.tabControlDosyalar.SelectedIndex = 0;
-            this.tabControlDosyalar.Size = new System.Drawing.Size(402, 451);
-            this.tabControlDosyalar.TabIndex = 24;
-            // 
-            // tabPageZip
-            // 
-            this.tabPageZip.Controls.Add(this.listBoxZip);
-            this.tabPageZip.ImageIndex = 2;
-            this.tabPageZip.Location = new System.Drawing.Point(4, 24);
-            this.tabPageZip.Name = "tabPageZip";
-            this.tabPageZip.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageZip.Size = new System.Drawing.Size(394, 423);
-            this.tabPageZip.TabIndex = 0;
-            this.tabPageZip.Text = "Zip Dosyaları";
-            this.tabPageZip.UseVisualStyleBackColor = true;
-            // 
-            // listBoxZip
-            // 
-            this.listBoxZip.FormattingEnabled = true;
-            this.listBoxZip.ItemHeight = 15;
-            this.listBoxZip.Location = new System.Drawing.Point(-4, 0);
-            this.listBoxZip.Name = "listBoxZip";
-            this.listBoxZip.ScrollAlwaysVisible = true;
-            this.listBoxZip.Size = new System.Drawing.Size(402, 424);
-            this.listBoxZip.TabIndex = 6;
-            // 
-            // tabPageTxt
-            // 
-            this.tabPageTxt.Controls.Add(this.listBoxTxt);
-            this.tabPageTxt.ImageIndex = 0;
-            this.tabPageTxt.Location = new System.Drawing.Point(4, 24);
-            this.tabPageTxt.Name = "tabPageTxt";
-            this.tabPageTxt.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTxt.Size = new System.Drawing.Size(394, 423);
-            this.tabPageTxt.TabIndex = 1;
-            this.tabPageTxt.Text = "Txt Dosyaları";
-            this.tabPageTxt.UseVisualStyleBackColor = true;
-            // 
-            // listBoxTxt
-            // 
-            this.listBoxTxt.FormattingEnabled = true;
-            this.listBoxTxt.ItemHeight = 15;
-            this.listBoxTxt.Location = new System.Drawing.Point(-4, 0);
-            this.listBoxTxt.Name = "listBoxTxt";
-            this.listBoxTxt.ScrollAlwaysVisible = true;
-            this.listBoxTxt.Size = new System.Drawing.Size(402, 424);
-            this.listBoxTxt.TabIndex = 7;
-            // 
-            // tabPageKlasor
-            // 
-            this.tabPageKlasor.Controls.Add(this.listBoxKlasor);
-            this.tabPageKlasor.ImageIndex = 1;
-            this.tabPageKlasor.Location = new System.Drawing.Point(4, 24);
-            this.tabPageKlasor.Name = "tabPageKlasor";
-            this.tabPageKlasor.Size = new System.Drawing.Size(394, 423);
-            this.tabPageKlasor.TabIndex = 2;
-            this.tabPageKlasor.Text = "Klasorler";
-            this.tabPageKlasor.UseVisualStyleBackColor = true;
-            // 
-            // listBoxKlasor
-            // 
-            this.listBoxKlasor.FormattingEnabled = true;
-            this.listBoxKlasor.ItemHeight = 15;
-            this.listBoxKlasor.Location = new System.Drawing.Point(-4, 0);
-            this.listBoxKlasor.Name = "listBoxKlasor";
-            this.listBoxKlasor.ScrollAlwaysVisible = true;
-            this.listBoxKlasor.Size = new System.Drawing.Size(402, 424);
-            this.listBoxKlasor.TabIndex = 7;
-            // 
-            // tabPageTumDosyalar
-            // 
-            this.tabPageTumDosyalar.Controls.Add(this.listBoxDosyalar);
-            this.tabPageTumDosyalar.Location = new System.Drawing.Point(4, 24);
-            this.tabPageTumDosyalar.Name = "tabPageTumDosyalar";
-            this.tabPageTumDosyalar.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTumDosyalar.Size = new System.Drawing.Size(394, 423);
-            this.tabPageTumDosyalar.TabIndex = 3;
-            this.tabPageTumDosyalar.Text = "Tüm Dosyalar";
-            this.tabPageTumDosyalar.UseVisualStyleBackColor = true;
-            // 
-            // listBoxDosyalar
-            // 
-            this.listBoxDosyalar.FormattingEnabled = true;
-            this.listBoxDosyalar.ItemHeight = 15;
-            this.listBoxDosyalar.Location = new System.Drawing.Point(-4, 0);
-            this.listBoxDosyalar.Name = "listBoxDosyalar";
-            this.listBoxDosyalar.ScrollAlwaysVisible = true;
-            this.listBoxDosyalar.Size = new System.Drawing.Size(402, 424);
-            this.listBoxDosyalar.TabIndex = 6;
-            // 
             // imageListLogo
             // 
             this.imageListLogo.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.imageListLogo.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListLogo.ImageStream")));
+            this.imageListLogo.ImageSize = new System.Drawing.Size(16, 16);
             this.imageListLogo.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageListLogo.Images.SetKeyName(0, "txt.png");
-            this.imageListLogo.Images.SetKeyName(1, "klasor.png");
-            this.imageListLogo.Images.SetKeyName(2, "zip.png");
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.listBoxSilinenler);
             this.groupBox1.Controls.Add(this.textBoxSil);
             this.groupBox1.Controls.Add(this.btnEkle);
-            this.groupBox1.Location = new System.Drawing.Point(855, 74);
+            this.groupBox1.Location = new System.Drawing.Point(432, 74);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(318, 495);
             this.groupBox1.TabIndex = 25;
@@ -347,13 +232,24 @@ namespace Dosya_Yedekleme
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.tabControlDosyalar);
-            this.groupBox2.Location = new System.Drawing.Point(404, 74);
+            this.groupBox2.Controls.Add(this.lswYedeklenecekler);
+            this.groupBox2.Location = new System.Drawing.Point(796, 74);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(416, 495);
             this.groupBox2.TabIndex = 26;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Yedeklenecek Dosyalar";
+            // 
+            // lswYedeklenecekler
+            // 
+            this.lswYedeklenecekler.Location = new System.Drawing.Point(8, 42);
+            this.lswYedeklenecekler.Name = "lswYedeklenecekler";
+            this.lswYedeklenecekler.Size = new System.Drawing.Size(402, 448);
+            this.lswYedeklenecekler.SmallImageList = this.imageListLogo;
+            this.lswYedeklenecekler.StateImageList = this.imageListLogo;
+            this.lswYedeklenecekler.TabIndex = 31;
+            this.lswYedeklenecekler.UseCompatibleStateImageBehavior = false;
+            this.lswYedeklenecekler.SelectedIndexChanged += new System.EventHandler(this.lswYedeklenecekler_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -378,10 +274,10 @@ namespace Dosya_Yedekleme
             this.groupBox3.Controls.Add(this.textBoxYedekMiktar);
             this.groupBox3.Location = new System.Drawing.Point(63, 364);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(123, 103);
+            this.groupBox3.Size = new System.Drawing.Size(130, 103);
             this.groupBox3.TabIndex = 29;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Yedekleme Miktarı";
+            this.groupBox3.Text = "Yedeklenecek Miktar";
             // 
             // groupBox4
             // 
@@ -417,13 +313,13 @@ namespace Dosya_Yedekleme
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
             // FrmYedekleme
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1236, 656);
+            this.ClientSize = new System.Drawing.Size(1236, 659);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.label4);
@@ -443,11 +339,6 @@ namespace Dosya_Yedekleme
             this.Text = "Dosya Yedekle";
             this.Load += new System.EventHandler(this.FrmYedekleme_Load);
             this.contextMenuStripGeriAl.ResumeLayout(false);
-            this.tabControlDosyalar.ResumeLayout(false);
-            this.tabPageZip.ResumeLayout(false);
-            this.tabPageTxt.ResumeLayout(false);
-            this.tabPageKlasor.ResumeLayout(false);
-            this.tabPageTumDosyalar.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -469,7 +360,6 @@ namespace Dosya_Yedekleme
         private System.Windows.Forms.TextBox textBoxHedef;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private System.Windows.Forms.ListBox listBoxDosyalar;
         private System.Windows.Forms.Label lblSilinen;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.TextBox textBoxSil;
@@ -480,15 +370,7 @@ namespace Dosya_Yedekleme
         private System.Windows.Forms.ComboBox comboBoxSaat;
         private System.Windows.Forms.TextBox textBoxYedekMiktar;
         private System.Windows.Forms.ComboBox comboBoxDakika;
-        private System.Windows.Forms.TabControl tabControlDosyalar;
-        private System.Windows.Forms.TabPage tabPageZip;
-        private System.Windows.Forms.TabPage tabPageTxt;
-        private System.Windows.Forms.TabPage tabPageKlasor;
         private System.Windows.Forms.ImageList imageListLogo;
-        private System.Windows.Forms.ListBox listBoxZip;
-        private System.Windows.Forms.ListBox listBoxTxt;
-        private System.Windows.Forms.ListBox listBoxKlasor;
-        private System.Windows.Forms.TabPage tabPageTumDosyalar;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label3;
@@ -500,6 +382,7 @@ namespace Dosya_Yedekleme
         private System.Windows.Forms.ContextMenuStrip contextMenuStripGeriAl;
         private System.Windows.Forms.ToolStripMenuItem geriAlToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ListView lswYedeklenecekler;
     }
 }
 
