@@ -250,7 +250,6 @@ namespace Dosya_Yedekleme
             {
                 int miktar = int.Parse(textBoxYedekMiktar.Text);
                 int sayac = 0;
-                int dosyaSayisi = 0;
                 if (comboBoxSaat.Text == "" && comboBoxDakika.Text == "" && textBoxYedekMiktar.Text != "")
                 {
                     for (var i = 1; i <= miktar; i++)
@@ -262,15 +261,7 @@ namespace Dosya_Yedekleme
                 else
                 {
                     tmrZamanKontrol.Start();
-                }                
-                foreach (FileInfo dosya in dosyalar)
-                {
-                    dosyaSayisi++;
-                }
-                if(dosyaSayisi>5)
-                {
-
-                }
+                }               
             }                  
             else if(comboBoxSaat.Text != "" && comboBoxDakika.Text != "")
             {  
@@ -318,6 +309,21 @@ namespace Dosya_Yedekleme
                     if (klasor.Name != klasorAdi + ".zip")
                     {
                         klasor.Delete();
+                    }
+                }
+
+                // Dosya sayısı 5 olursa ilk oluşturulan dosyayı siler.
+                string[] fileList = Directory.GetFiles(hedefKlasor, "*.*", SearchOption.AllDirectories);
+                string minDate = fileList.Min();
+                var silinecekDosya = minDate.Substring(minDate.LastIndexOf("\\") + 1);
+                if (fileList.Count() > 4)
+                {
+                    foreach (FileInfo dosyaa in dosyalar)
+                    {
+                        if (silinecekDosya == dosyaa.Name)
+                        {
+                            dosyaa.Delete();
+                        }
                     }
                 }
             })
